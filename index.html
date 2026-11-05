@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#087f78"><meta name="description" content="مدیریت تعمیرات، نصب و سوابق مشتریان">
+<link rel="manifest" href="manifest.webmanifest">
+<title>خدمات فنی حسین</title>
+<style>
+:root{--teal:#087f78;--ink:#173b3b;--bg:#f2f7f6;--card:#fff;--muted:#647777;--line:#dce8e6}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif}
+header{background:linear-gradient(135deg,#087f78,#075c59);color:#fff;padding:25px 20px 22px;border-radius:0 0 24px 24px}
+header h1{font-size:25px;margin:0 0 8px}header p{margin:0;font-size:13px;opacity:.9}
+main{max-width:720px;margin:auto;padding:16px}
+.card{background:var(--card);border-radius:18px;padding:16px;margin:12px 0;box-shadow:0 4px 18px #153c3a0d}
+h2{font-size:18px;margin:3px 0 14px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button,.btn{border:0;border-radius:13px;background:var(--teal);color:#fff;padding:14px 12px;font: bold 15px Tahoma;cursor:pointer;min-height:48px}
+button.secondary{background:#e5f2f0;color:var(--teal);border:1px solid #c9e1dd}
+button.danger{background:#a33b3b}
+input,textarea,select{width:100%;padding:13px;border:1px solid var(--line);border-radius:11px;background:#fff;font:14px Tahoma;color:var(--ink);margin:5px 0 12px}
+textarea{min-height:85px;resize:vertical}label{font-size:13px;font-weight:bold;display:block;margin-top:5px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.full{grid-column:1/-1}.hidden{display:none!important}.muted{color:var(--muted);font-size:12px;line-height:1.8}
+.row{display:flex;gap:8px;flex-wrap:wrap}.row button{flex:1}
+.record{border:1px solid var(--line);border-radius:13px;padding:13px;margin:10px 0;background:#fcfefe}
+.record h3{font-size:16px;margin:0 0 8px}.record p{font-size:13px;line-height:1.9;margin:3px 0}
+.badge{display:inline-block;background:#e5f2f0;color:#086b65;border-radius:20px;padding:4px 9px;font-size:11px}
+footer{text-align:center;padding:18px;color:var(--muted);font-size:11px}
+@media(max-width:420px){.grid{grid-template-columns:1fr}.actions{grid-template-columns:1fr 1fr}}
+</style></head>
+<body>
+<header><h1>خدمات فنی حسین</h1><p>مدیریت تعمیر، نصب و سوابق مشتریان</p></header>
+<main>
+<section id="home">
+ <div class="card"><h2>چه کاری می‌خواهید انجام دهید؟</h2><div class="actions">
+ <button onclick="openForm('تعمیر')">＋ ثبت تعمیر</button><button onclick="openForm('نصب و راه‌اندازی')">＋ نصب و راه‌اندازی</button>
+ <button class="secondary" onclick="showSearch()">⌕ جست‌وجوی مشتری</button><button class="secondary" onclick="backup()">⇩ پشتیبان‌گیری</button>
+ </div></div>
+ <div class="card"><h2>آخرین خدمات ثبت‌شده</h2><div id="recent"></div></div>
+ <p class="muted">اطلاعات در همین گوشی ذخیره می‌شود. برای حفظ سوابق، مرتباً فایل پشتیبان بگیرید و آن را در فضای امن یا فضای ابری خود نگه دارید.</p>
+</section>
+<section id="form" class="hidden">
+ <div class="card"><h2 id="formTitle">ثبت خدمت</h2><form id="jobForm">
+ <div class="grid">
+ <div><label>نام مشتری *</label><input name="name" required></div>
+ <div><label>شماره موبایل *</label><input name="mobile" type="tel" required></div>
+ <div class="full"><label>آدرس</label><input name="address"></div>
+ <div><label>برند</label><select name="brand"><option>بوتان</option><option>ایران‌شرق</option><option>سایر</option></select></div>
+ <div><label>نوع دستگاه</label><select name="device"><option>پکیج</option><option>آبگرمکن</option><option>بخاری</option><option>اجاق گاز</option><option>سایر</option></select></div>
+ <div><label>مدل</label><input name="model"></div><div><label>شماره سریال</label><input name="serial"></div>
+ <div><label>تاریخ شمسی</label><input name="date" placeholder="۱۴۰۵/۰۸/۱۴"></div>
+ <div><label>وضعیت دستگاه</label><input name="status" placeholder="سالم / نیازمند قطعه / ..."></div>
+ <div class="full"><label id="detailsLabel">شرح عیب و اقدامات</label><textarea name="details"></textarea></div>
+ <div class="full"><label>قطعات مصرفی یا تعویض‌شده</label><textarea name="parts"></textarea></div>
+ <div><label>اجرت (تومان)</label><input name="labor" type="number" min="0" value="0"></div>
+ <div><label>هزینه قطعات (تومان)</label><input name="partsCost" type="number" min="0" value="0"></div>
+ <div><label>مدت و شرایط گارانتی</label><input name="warranty" placeholder="مثلاً ۳ ماه"></div>
+ <div><label>تاریخ سرویس بعدی</label><input name="nextService" placeholder="۱۴۰۶/۰۲/۱۴"></div>
+ <div class="full"><label>عکس دستگاه یا قطعه</label><input name="photo" type="file" accept="image/*" capture="environment"></div>
+ </div>
+ <p class="muted">* فیلدهای نام و شماره موبایل الزامی هستند. تاریخ‌ها را به‌صورت شمسی وارد کنید.</p>
+ <div class="row"><button type="submit">ذخیره خدمت</button><button type="button" class="secondary" onclick="goHome()">انصراف</button></div>
+ </form></div>
+</section>
+<section id="search" class="hidden">
+ <div class="card"><h2>جست‌وجوی مشتری</h2><label>شماره موبایل یا بخشی از آن</label><input id="query" type="tel" placeholder="مثلاً ۰۹۱۲..."><div class="row"><button onclick="searchJobs()">جست‌وجو</button><button class="secondary" onclick="goHome()">خانه</button></div><div id="results"></div></div>
+</section>
+</main><footer>نسخه اولیه آفلاین • خدمات فنی حسین</footer>
+<script>
+const DB='hossein-service-records-v1';let currentKind='تعمیر';
+function read(){try{return JSON.parse(localStorage.getItem(DB)||'[]')}catch(e){return []}}
+function write(a){localStorage.setItem(DB,JSON.stringify(a))}
+function show(id){['home','form','search'].forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id))}
+function goHome(){show('home');renderRecent();window.scrollTo(0,0)}
+function openForm(kind){currentKind=kind;document.getElementById('jobForm').reset();document.getElementById('formTitle').textContent='ثبت '+kind;document.getElementById('detailsLabel').textContent=kind==='تعمیر'?'شرح عیب و اقدامات تعمیر':'شرح نصب و راه‌اندازی';show('form');window.scrollTo(0,0)}
+function money(n){return (Number(n)||0).toLocaleString('fa-IR')}
+function renderRecent(){let a=read().slice(-5).reverse();document.getElementById('recent').innerHTML=a.length?a.map(card).join(''):'<p class="muted">هنوز خدمتی ثبت نشده است.</p>'}
+function card(j){return `<div class="record"><h3>${esc(j.name)} <span class="badge">${esc(j.kind)}</span></h3><p>${esc(j.mobile)} • ${esc(j.brand)} ${esc(j.device)} • ${esc(j.date||'بدون تاریخ')}</p><p>مدل: ${esc(j.model||'-')} | سریال: ${esc(j.serial||'-')}</p><p>مبلغ کل: <b>${money((+j.labor||0)+(+j.partsCost||0))} تومان</b></p><p>${esc(j.details||'')}</p><div class="row"><button class="secondary" onclick="sms('${j.id}')">ارسال گزارش پیامکی</button></div></div>`}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+document.getElementById('jobForm').addEventListener('submit',async e=>{e.preventDefault();let f=e.target,fd=new FormData(f),j=Object.fromEntries(fd.entries());j.id=Date.now().toString();j.kind=currentKind;j.createdAt=new Date().toISOString();let file=f.elements.photo.files[0];if(file){if(file.size>1200000){alert('حجم عکس بیشتر از ۱.۲ مگابایت است؛ لطفاً عکس کوچک‌تری انتخاب کنید.');return}j.photo=await toData(file)}else j.photo='';let a=read();a.push(j);try{write(a);alert('اطلاعات ذخیره شد.');goHome()}catch(err){alert('فضای ذخیره‌سازی گوشی کافی نیست. عکس کوچک‌تری انتخاب کنید یا پشتیبان بگیرید.')}});
+function toData(file){return new Promise((res,rej)=>{let r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file)})}
+function showSearch(){show('search');document.getElementById('query').value='';document.getElementById('results').innerHTML='';window.scrollTo(0,0)}
+function searchJobs(){let q=document.getElementById('query').value.trim().replace(/\s/g,'');let a=read().filter(j=>j.mobile.replace(/\s/g,'').includes(q)||(!q&&false)).reverse();document.getElementById('results').innerHTML=a.length?a.map(card).join(''):'<p class="muted">موردی پیدا نشد.</p>'}
+function sms(id){let j=read().find(x=>x.id===id);if(!j)return;let total=(+j.labor||0)+(+j.partsCost||0);let msg=`گزارش خدمات فنی حسین\nنوع خدمت: ${j.kind}\nمشتری: ${j.name}\nدستگاه: ${j.brand} ${j.device}\nمدل: ${j.model||'-'}\nشماره سریال: ${j.serial||'-'}\nتاریخ: ${j.date||'-'}\nشرح: ${j.details||'-'}\nقطعات: ${j.parts||'-'}\nاجرت: ${money(j.labor)} تومان\nقطعات: ${money(j.partsCost)} تومان\nجمع کل: ${money(total)} تومان\nوضعیت: ${j.status||'-'}\nگارانتی: ${j.warranty||'-'}\nسرویس بعدی: ${j.nextService||'-'}`;location.href='sms:'+encodeURIComponent(j.mobile)+'?body='+encodeURIComponent(msg)}
+function backup(){let blob=new Blob([JSON.stringify({app:'خدمات فنی حسین',version:1,records:read()},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hossein-services-backup.json';a.click();URL.revokeObjectURL(a.href)}
+renderRecent();
+if('serviceWorker'in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script></body></html>
